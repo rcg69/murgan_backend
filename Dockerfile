@@ -1,14 +1,16 @@
-# Use an official OpenJDK image as the base
-FROM openjdk:17-jdk-slim
+# Stage 1: Build
+FROM maven:3.9.6-eclipse-temurin-21 AS build
 
-# Set the working directory
 WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
 
-# Copy the built jar file
-COPY target/ecommerce-backend-0.0.1-SNAPSHOT.jar ecommerce-backend.jar
+# Stage 2: Run
+FROM eclipse-temurin:21-jdk-jammy
 
-# Expose port 8080
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
+
 EXPOSE 8080
 
-# Run the jar file
-ENTRYPOINT ["java", "-jar", "ecommerce-backend.jar"]
+ENTRYPOINT ["java","-jar","app.jar"]
