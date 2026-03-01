@@ -2,9 +2,7 @@ spring:
   application:
     name: ecommerce-api
   datasource:
-    url: jdbc:postgresql://db.ybwsutpejxkbotntphvu.supabase.co:5432/postgres?sslmode=require
-    username: postgres
-    password: harikaramcharan
+    url: jdbc:postgresql://aws-1-ap-south-1.pooler.supabase.com:5432/postgres?user=postgres.ybwsutpejxkbotntphvu&password=harikaramcharan&sslmode=require
     driver-class-name: org.postgresql.Driver
   jpa:
     open-in-view: false
