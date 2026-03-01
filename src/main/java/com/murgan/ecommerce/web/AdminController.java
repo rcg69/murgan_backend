@@ -24,6 +24,7 @@ import com.murgan.ecommerce.web.dto.CategoryDtos.CategoryResponse;
 import com.murgan.ecommerce.web.dto.CategoryDtos.UpsertCategoryRequest;
 import com.murgan.ecommerce.web.dto.ProductDtos.ProductResponse;
 import com.murgan.ecommerce.web.dto.ProductDtos.UpsertProductRequest;
+import com.murgan.ecommerce.web.dto.SalesSummaryResponse;
 
 import jakarta.validation.Valid;
 
@@ -99,6 +100,12 @@ public class AdminController {
 	public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
 		adminService.deleteProduct(id);
 		return ResponseEntity.noContent().build();
+	}
+
+	@GetMapping("/sales")
+	public ResponseEntity<SalesSummaryResponse> salesSummary() {
+		var summary = adminService.getSalesSummary();
+		return ResponseEntity.ok(summary);
 	}
 
 	private static UserResponse toUserResponse(User u) {

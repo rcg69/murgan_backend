@@ -72,7 +72,15 @@ public class AuthService {
 			new UsernamePasswordAuthenticationToken(usernameOrEmail, password)
 		);
 		String token = jwtService.createAccessToken(auth.getName(), auth.getAuthorities());
-		return new AuthResponse(token, "Bearer");
+		String role = "user";
+		var authorities = auth.getAuthorities();
+		for (var authority : authorities) {
+			if (authority.getAuthority().equals("ROLE_ADMIN")) {
+				role = "admin";
+				break;
+			}
+		}
+		return new AuthResponse(token, "Bearer", role);
 	}
 }
 

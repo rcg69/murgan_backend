@@ -106,5 +106,58 @@ public class AdminService {
 	}
 
 	public record DashboardStats(long users, long categories, long products, long orders) {}
+
+	@Transactional(readOnly = true)
+	public com.murgan.ecommerce.web.dto.SalesSummaryResponse getSalesSummary() {
+		long productsOrdered = 0;
+		long activeUsers = 0;
+		double totalRevenue = 0.0;
+
+		var orders = orderRepository.findAll();
+		java.util.Set<Long> userIds = new java.util.HashSet<>();
+		java.util.Map<String, Long> productsOrderedMap = new java.util.LinkedHashMap<>();
+		java.util.Map<String, Long> activeUsersMap = new java.util.LinkedHashMap<>();
+		java.util.Map<String, Double> totalRevenueMap = new java.util.LinkedHashMap<>();
+
+		java.time.format.DateTimeFormatter fmt = java.time.format.DateTimeFormatter.ofPattern("MMM");
+		for (var order : orders) {
+			String month = order.getCreatedAt().atZone(java.time.ZoneId.systemDefault()).format(fmt);
+			userIds.add(order.getUser().getId());
+			activeUsersMap.put(month, activeUsersMap.getOrDefault(month, 0L) + 1);
+			if (order.getItems() != null) {
+				for (var item : order.getItems()) {
+					productsOrdered += item.getQuantity();
+					productsOrderedMap.put(month, productsOrderedMap.getOrDefault(month, 0L) + item.getQuantity());
+					if (item.getLineTotal() != null) {
+						totalRevenue += item.getLineTotal().doubleValue();
+						totalRevenueMap.put(month, totalRevenueMap.getOrDefault(month, 0.0) + item.getLineTotal().doubleValue());
+					}
+				}
+			}
+		}
+		activeUsers = userIds.size();
+
+		java.util.List<com.murgan.ecommerce.web.dto.SalesSummaryResponse.HistoryPoint> productsOrderedHistory = new java.util.ArrayList<>();
+		for (var entry : productsOrderedMap.entrySet()) {
+			productsOrderedHistory.add(new com.murgan.ecommerce.web.dto.SalesSummaryResponse.HistoryPoint(entry.getKey(), entry.getValue()));
+		}
+		java.util.List<com.murgan.ecommerce.web.dto.SalesSummaryResponse.HistoryPoint> activeUsersHistory = new java.util.ArrayList<>();
+		for (var entry : activeUsersMap.entrySet()) {
+			activeUsersHistory.add(new com.murgan.ecommerce.web.dto.SalesSummaryResponse.HistoryPoint(entry.getKey(), entry.getValue()));
+		}
+		java.util.List<com.murgan.ecommerce.web.dto.SalesSummaryResponse.HistoryPoint> totalRevenueHistory = new java.util.ArrayList<>();
+		for (var entry : totalRevenueMap.entrySet()) {
+			totalRevenueHistory.add(new com.murgan.ecommerce.web.dto.SalesSummaryResponse.HistoryPoint(entry.getKey(), entry.getValue().longValue()));
+		}
+
+		return new com.murgan.ecommerce.web.dto.SalesSummaryResponse(
+			productsOrdered,
+			activeUsers,
+			totalRevenue,
+			productsOrderedHistory,
+			activeUsersHistory,
+			totalRevenueHistory
+		);
+	}
 }
 

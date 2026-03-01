@@ -19,9 +19,10 @@ public final class AuthDtos {
 		@NotBlank String password
 	) {}
 
-	public record AuthResponse(
-		String accessToken,
-		String tokenType
-	) {}
+	   public record AuthResponse(
+		   String accessToken,
+		   String tokenType,
+		   String role
+	   ) {}
 }
 
