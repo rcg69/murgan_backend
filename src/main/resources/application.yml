@@ -2,12 +2,14 @@ spring:
   application:
     name: ecommerce-api
   datasource:
-    url: jdbc:postgresql://aws-1-ap-south-1.pooler.supabase.com:5432/postgres?user=postgres.ybwsutpejxkbotntphvu&password=harikaramcharan&sslmode=require
+    url: jdbc:postgresql://db.ybwsutpejxkbotntphvu.supabase.co:5432/postgres?sslmode=require
+    username: postgres
+    password: harikaramcharan
     driver-class-name: org.postgresql.Driver
   jpa:
     open-in-view: false
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
