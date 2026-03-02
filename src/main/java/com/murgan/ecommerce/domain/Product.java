@@ -52,7 +52,7 @@ public class Product {
 	@Column(nullable = false, updatable = false)
 	private Instant createdAt = Instant.now();
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "category_id", nullable = false)
 	private Category category;
 }
