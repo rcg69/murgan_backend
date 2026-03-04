@@ -31,3 +31,52 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+
+# Maven
+# (already handled above, but included for completeness)
+# /target/
+# !.mvn/wrapper/maven-wrapper.jar
+
+# Gradle
+# .gradle/
+# build/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment
+.env
+
+# Application properties
+application-local.yml
+application-dev.yml
+application-test.yml
+application-prod.yml
+src/main/resources/application.yml
+
+# Ignore sensitive files
+*.key
+*.pem
+*.crt
+
+# Ignore database files
+*.db
+*.sqlite
+
+# Ignore test output
+/test-output/
+
+# Ignore backup files
+*~
+*.swp
+*.swo
