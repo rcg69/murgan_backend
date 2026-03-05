@@ -20,7 +20,8 @@ spring:
         generate_statistics: false
 
 server:
-  port: ${PORT:8080}
+  port: ${SERVER_PORT:8080}
+
 security:
   jwt:
     secret: ${SECURITY_JWT_SECRET}
