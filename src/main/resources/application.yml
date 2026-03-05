@@ -1,9 +1,13 @@
 spring:
   application:
     name: ecommerce-api
+
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://aws-1-ap-south-1.pooler.supabase.com:5432/postgres?user=postgres.ybwsutpejxkbotntphvu&password=harikaramcharan&sslmode=require}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://dpg-d6k55knafjfc73ffefsg-a:5432/murgan_pl46?sslmode=require}
+    username: ${SPRING_DATASOURCE_USERNAME:murgan_pl46_user}
+    password: ${SPRING_DATASOURCE_PASSWORD:FdMKLDZrMoQAAOeu08XmZxQOYJU1A9tv}
     driver-class-name: org.postgresql.Driver
+
   jpa:
     open-in-view: false
     hibernate:
