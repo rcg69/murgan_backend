@@ -3,9 +3,9 @@ spring:
     name: ecommerce-api
 
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://dpg-d6k55knafjfc73ffefsg-a:5432/murgan_pl46?sslmode=require}
-    username: ${SPRING_DATASOURCE_USERNAME:murgan_pl46_user}
-    password: ${SPRING_DATASOURCE_PASSWORD:FdMKLDZrMoQAAOeu08XmZxQOYJU1A9tv}
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -26,7 +26,7 @@ server:
 
 security:
   jwt:
-    secret: ${SECURITY_JWT_SECRET:mX7#kP9$qL2@nR5&vT8*wY3!jH6^cF1%}
+    secret: ${SECURITY_JWT_SECRET}
     access-token-ttl-seconds: ${SECURITY_JWT_ACCESS_TOKEN_TTL_SECONDS:900}
 
 app:
