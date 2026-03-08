@@ -3,9 +3,9 @@ spring:
     name: ecommerce-api
 
   datasource:
-    url: jdbc:postgresql://aws-1-ap-northeast-1.pooler.supabase.com:5432/postgres?sslmode=require
-    username: postgres.yneectowzgasbuwezpxx
-    password: SuryamDB@123
+    url: jdbc:postgresql://aws-1-ap-south-1.pooler.supabase.com:5432/postgres?sslmode=require
+    username: postgres.ybwsutpejxkbotntphvu
+    password: harikaramcharan
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -22,18 +22,18 @@ spring:
         generate_statistics: false
 
 server:
-  port: 8080
+  port: ${SERVER_PORT:8080}
 
 security:
   jwt:
-    secret: mX7#kP9$qL2@nR5&vT8*wY3!jH6^cF1%
-    access-token-ttl-seconds: 900
+    secret: ${SECURITY_JWT_SECRET}
+    access-token-ttl-seconds: ${SECURITY_JWT_ACCESS_TOKEN_TTL_SECONDS:900}
 
 app:
   cors:
-    allowed-origins: "*"
+    allowed-origins: ${APP_CORS_ALLOWED_ORIGINS:*}
   bootstrap-admin:
-    enabled: true
-    email: admin123@local
-    username: admin123
-    password: 123@admin
+    enabled: ${APP_BOOTSTRAP_ADMIN_ENABLED:true}
+    email: ${APP_BOOTSTRAP_ADMIN_EMAIL:admin123@local}
+    username: ${APP_BOOTSTRAP_ADMIN_USERNAME:admin123}
+    password: ${APP_BOOTSTRAP_ADMIN_PASSWORD:123@admin}
