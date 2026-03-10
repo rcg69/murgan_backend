@@ -1,7 +1,10 @@
 package com.murgan.ecommerce.domain;
 
 import java.math.BigDecimal;
+
 import java.time.Instant;
+import java.util.List;
+import jakarta.persistence.Convert;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -46,8 +49,10 @@ public class Product {
 	@Column(nullable = false)
 	private Integer stockQuantity;
 
-	@Column(length = 255)
-	private String imageUrl;
+
+	@Convert(converter = StringListConverter.class)
+	@Column(name = "image_urls", length = 2000)
+	private List<String> imageUrls = new java.util.ArrayList<>();
 
 	@Column(nullable = false, updatable = false)
 	private Instant createdAt = Instant.now();

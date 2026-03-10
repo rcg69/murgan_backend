@@ -72,7 +72,7 @@ public class ProductService {
 		existing.setDescription(patch.getDescription());
 		existing.setPrice(patch.getPrice());
 		existing.setStockQuantity(patch.getStockQuantity());
-		existing.setImageUrl(patch.getImageUrl());
+			   existing.setImageUrls(patch.getImageUrls());
 		existing.setCategory(patch.getCategory());
 		return existing;
 	}

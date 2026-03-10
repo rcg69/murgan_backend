@@ -17,13 +17,13 @@ public final class OrderDtos {
 		List<OrderItemResponse> items
 	) {}
 
-	public record OrderItemResponse(
-		Long productId,
-		String name,
-		BigDecimal price,
-		Integer quantity,
-		BigDecimal lineTotal,
-		String imageUrl
-	) {}
+	       public record OrderItemResponse(
+		       Long productId,
+		       String name,
+		       BigDecimal price,
+		       Integer quantity,
+		       BigDecimal lineTotal,
+		       java.util.List<String> imageUrls
+	       ) {}
 }
 

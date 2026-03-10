@@ -3,9 +3,7 @@ spring:
     name: ecommerce-api
 
   datasource:
-    url: jdbc:postgresql://aws-1-ap-south-1.pooler.supabase.com:5432/postgres?sslmode=require
-    username: postgres.ybwsutpejxkbotntphvu
-    password: harikaramcharan
+    url: jdbc:postgresql://aws-1-ap-south-1.pooler.supabase.com:5432/postgres?user=postgres.ybwsutpejxkbotntphvu&password=harikaramcharan
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -26,7 +24,7 @@ server:
 
 security:
   jwt:
-    secret: ${SECURITY_JWT_SECRET}
+    secret: f9K#2vLxQ8!aZr7P@6YdT3m$W1uC%J4hG0sB^nR5qE&Xk9*Vt8zF2pL7wH!cM6oD#S1yU@bN3iK%Qx4A$Zr5Tg7Jd8Wm9P2E^vC0YhF!kL6sB3Xn&uR1qH8oD4zVtM5G2pS7c9a
     access-token-ttl-seconds: ${SECURITY_JWT_ACCESS_TOKEN_TTL_SECONDS:900}
 
 app:

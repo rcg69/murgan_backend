@@ -66,18 +66,18 @@ public class CartController {
 
 	private static CartItemResponse toItemResponse(CartItem ci) {
 		var p = ci.getProduct();
-		return new CartItemResponse(p.getId(), p.getName(), p.getPrice(), ci.getQuantity(), ci.getLineTotal(), p.getImageUrl());
+		return new CartItemResponse(p.getId(), p.getName(), p.getPrice(), ci.getQuantity(), ci.getLineTotal(), p.getImageUrls());
 	}
 
 	private static OrderResponse toOrderResponse(Order o) {
-		var items = o.getItems().stream().map(oi -> new OrderItemResponse(
-			oi.getProduct().getId(),
-			oi.getProduct().getName(),
-			oi.getProduct().getPrice(),
-			oi.getQuantity(),
-			oi.getLineTotal(),
-			oi.getProduct().getImageUrl()
-		)).toList();
+		       var items = o.getItems().stream().map(oi -> new OrderItemResponse(
+			       oi.getProduct().getId(),
+			       oi.getProduct().getName(),
+			       oi.getProduct().getPrice(),
+			       oi.getQuantity(),
+			       oi.getLineTotal(),
+			       oi.getProduct().getImageUrls()
+		       )).toList();
 		return new OrderResponse(o.getId(), o.getStatus().name(), o.getTotal(), o.getShippingAddress(), o.getCreatedAt(), items);
 	}
 }

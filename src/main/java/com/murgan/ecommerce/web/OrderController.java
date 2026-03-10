@@ -39,9 +39,9 @@ public class OrderController {
 		return new OrderResponse(o.getId(), o.getStatus().name(), o.getTotal(), o.getShippingAddress(), o.getCreatedAt(), items);
 	}
 
-	private static OrderItemResponse toItem(OrderItem oi) {
-		var p = oi.getProduct();
-		return new OrderItemResponse(p.getId(), p.getName(), p.getPrice(), oi.getQuantity(), oi.getLineTotal(), p.getImageUrl());
-	}
+	       private static OrderItemResponse toItem(OrderItem oi) {
+		       var p = oi.getProduct();
+		       return new OrderItemResponse(p.getId(), p.getName(), p.getPrice(), oi.getQuantity(), oi.getLineTotal(), p.getImageUrls());
+	       }
 }
 

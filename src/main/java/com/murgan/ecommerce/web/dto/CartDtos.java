@@ -17,14 +17,14 @@ public final class CartDtos {
 		List<CartItemResponse> items
 	) {}
 
-	public record CartItemResponse(
-		Long productId,
-		String name,
-		BigDecimal price,
-		Integer quantity,
-		BigDecimal lineTotal,
-		String imageUrl
-	) {}
+	       public record CartItemResponse(
+		       Long productId,
+		       String name,
+		       BigDecimal price,
+		       Integer quantity,
+		       BigDecimal lineTotal,
+		       java.util.List<String> imageUrls
+	       ) {}
 
 	public record AddCartItemRequest(
 		@NotNull Long productId,

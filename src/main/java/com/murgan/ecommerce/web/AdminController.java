@@ -69,32 +69,34 @@ public class AdminController {
 		return ResponseEntity.noContent().build();
 	}
 
-	@PostMapping("/products")
-	public ResponseEntity<ProductResponse> createProduct(@Valid @RequestBody UpsertProductRequest req) {
-		Product p = adminService.createProduct(
-			req.name(),
-			req.description(),
-			req.price(),
-			req.stockQuantity(),
-			req.imageUrl(),
-			req.categoryId()
-		);
-		return ResponseEntity.ok(ProductController.toResponse(p));
-	}
 
-	@PutMapping("/products/{id}")
-	public ResponseEntity<ProductResponse> updateProduct(@PathVariable Long id, @Valid @RequestBody UpsertProductRequest req) {
-		Product p = adminService.updateProduct(
-			id,
-			req.name(),
-			req.description(),
-			req.price(),
-			req.stockQuantity(),
-			req.imageUrl(),
-			req.categoryId()
-		);
-		return ResponseEntity.ok(ProductController.toResponse(p));
-	}
+	       @PostMapping("/products")
+	       public ResponseEntity<ProductResponse> createProduct(@Valid @RequestBody UpsertProductRequest req) {
+		       Product p = adminService.createProduct(
+			       req.name(),
+			       req.description(),
+			       req.price(),
+			       req.stockQuantity(),
+			       req.imageUrls(),
+			       req.categoryId()
+		       );
+		       return ResponseEntity.ok(ProductController.toResponse(p));
+	       }
+
+
+	       @PutMapping("/products/{id}")
+	       public ResponseEntity<ProductResponse> updateProduct(@PathVariable Long id, @Valid @RequestBody UpsertProductRequest req) {
+		       Product p = adminService.updateProduct(
+			       id,
+			       req.name(),
+			       req.description(),
+			       req.price(),
+			       req.stockQuantity(),
+			       req.imageUrls(),
+			       req.categoryId()
+		       );
+		       return ResponseEntity.ok(ProductController.toResponse(p));
+	       }
 
 	@DeleteMapping("/products/{id}")
 	public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
