@@ -12,15 +12,15 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+        dialect: org.hibernate.dialect.PostgreSQLDialect  # Harmless warning
         jdbc:
           batch_size: 50
-        order_inserts: true
-        order_updates: true
-        generate_statistics: false
+          order_inserts: true
+          order_updates: true
+          generate_statistics: false
 
 server:
-  port: ${SERVER_PORT:8080}
+  port: ${PORT:8080}  # ← ONLY CHANGE THIS LINE
 
 security:
   jwt:
