@@ -29,7 +29,7 @@ security:
 
 app:
   cors:
-    allowed-origins: ${APP_CORS_ALLOWED_ORIGINS:*}
+    allowed-origins: https://murgan-ui.vercel.app/
   bootstrap-admin:
     enabled: ${APP_BOOTSTRAP_ADMIN_ENABLED:true}
     email: ${APP_BOOTSTRAP_ADMIN_EMAIL:admin123@local}
