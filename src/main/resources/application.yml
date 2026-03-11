@@ -1,37 +1,37 @@
 spring:
   application:
-      name: ecommerce-api
+    name: ecommerce-api
 
-        datasource:
-            url: jdbc:postgresql://aws-1-ap-south-1.pooler.supabase.com:5432/postgres?user=postgres.ybwsutpejxkbotntphvu&password=harikaramcharan
-                driver-class-name: org.postgresql.Driver
+  datasource:
+    url: jdbc:postgresql://aws-1-ap-south-1.pooler.supabase.com:5432/postgres?user=postgres.ybwsutpejxkbotntphvu&password=harikaramcharan
+    driver-class-name: org.postgresql.Driver
 
-                  jpa:
-                      open-in-view: false
-                          hibernate:
-                                ddl-auto: update
-                                    properties:
-                                          hibernate:
-                                                  dialect: org.hibernate.dialect.PostgreSQLDialect
-                                                          jdbc:
-                                                                    batch_size: 50
-                                                                              order_inserts: true
-                                                                                        order_updates: true
-                                                                                                  generate_statistics: false
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          batch_size: 50
+        order_inserts: true
+        order_updates: true
+        generate_statistics: false
 
-                                                                                                  server:
-                                                                                                    port: ${PORT:8080}
+server:
+  port: ${PORT:8080}
 
-                                                                                                    security:
-                                                                                                      jwt:
-                                                                                                          secret: f9K#2vLxQ8!aZr7P@6YdT3m$W1uC%J4hG0sB^nR5qE&Xk9*Vt8zF2pL7wH!cM6oD#S1yU@bN3iK%Qx4A$Zr5Tg7Jd8Wm9P2E^vC0YhF!kL6sB3Xn&uR1qH8oD4zVtM5G2pS7c9a
-                                                                                                              access-token-ttl-seconds: ${SECURITY_JWT_ACCESS_TOKEN_TTL_SECONDS:900}
+security:
+  jwt:
+    secret: "f9K#2vLxQ8!aZr7P@6YdT3m$W1uC%J4hG0sB^nR5qE&Xk9*Vt8zF2pL7wH!cM6oD#S1yU@bN3iK%Qx4A$Zr5Tg7Jd8Wm9P2E^vC0YhF!kL6sB3Xn&uR1qH8oD4zVtM5G2pS7c9a"
+    access-token-ttl-seconds: ${SECURITY_JWT_ACCESS_TOKEN_TTL_SECONDS:900}
 
-                                                                                                              app:
-                                                                                                                cors:
-                                                                                                                    allowed-origins: https://murgan-ui.vercel.app
-                                                                                                                      bootstrap-admin:
-                                                                                                                          enabled: ${APP_BOOTSTRAP_ADMIN_ENABLED:true}
-                                                                                                                              email: ${APP_BOOTSTRAP_ADMIN_EMAIL:admin123@local}
-                                                                                                                                  username: ${APP_BOOTSTRAP_ADMIN_USERNAME:admin123}
-                                                                                                                                      password: ${APP_BOOTSTRAP_ADMIN_PASSWORD:123@admin}
+app:
+  cors:
+    allowed-origins: https://murgan-ui.vercel.app
+  bootstrap-admin:
+    enabled: ${APP_BOOTSTRAP_ADMIN_ENABLED:true}
+    email: ${APP_BOOTSTRAP_ADMIN_EMAIL:admin123@local}
+    username: ${APP_BOOTSTRAP_ADMIN_USERNAME:admin123}
+    password: ${APP_BOOTSTRAP_ADMIN_PASSWORD:123@admin}
