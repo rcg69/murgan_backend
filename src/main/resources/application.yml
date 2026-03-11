@@ -1,11 +1,13 @@
 spring:
   application:
     name: ecommerce-api
+
   datasource:
     url: jdbc:postgresql://aws-1-ap-south-1.pooler.supabase.com:5432/postgres
     username: postgres.ybwsutpejxkbotntphvu
-    password:harikaramcharan # Set this env var securely on Render
+    password: harikaramcharan
     driver-class-name: org.postgresql.Driver
+
   jpa:
     open-in-view: false
     hibernate:
@@ -20,18 +22,18 @@ spring:
         generate_statistics: false
 
 server:
-  port: ${PORT:8080}
+  port: ${PORT:8080}  # Bind to Render's dynamic port
 
 security:
   jwt:
     secret: "f9K#2vLxQ8!aZr7P@6YdT3m$W1uC%J4hG0sB^nR5qE&Xk9*Vt8zF2pL7wH!cM6oD#S1yU@bN3iK%Qx4A$Zr5Tg7Jd8Wm9P2E^vC0YhF!kL6sB3Xn&uR1qH8oD4zVtM5G2pS7c9a"
-    access-token-ttl-seconds: ${SECURITY_JWT_ACCESS_TOKEN_TTL_SECONDS:900}
+    access-token-ttl-seconds: 900
 
 app:
   cors:
     allowed-origins: https://murgan-ui.vercel.app
   bootstrap-admin:
-    enabled: ${APP_BOOTSTRAP_ADMIN_ENABLED:true}
-    email: ${APP_BOOTSTRAP_ADMIN_EMAIL:admin123@local}
-    username: ${APP_BOOTSTRAP_ADMIN_USERNAME:admin123}
-    password: ${APP_BOOTSTRAP_ADMIN_PASSWORD:123@admin}
+    enabled: true
+    email: admin123@local
+    username: admin123
+    password: 123@admin
