@@ -1,13 +1,11 @@
 spring:
   application:
     name: ecommerce-api
-
   datasource:
     url: jdbc:postgresql://aws-1-ap-south-1.pooler.supabase.com:5432/postgres
     username: postgres.ybwsutpejxkbotntphvu
-    password: harikaramcharan
+    password:harikaramcharan # Set this env var securely on Render
     driver-class-name: org.postgresql.Driver
-
   jpa:
     open-in-view: false
     hibernate:
