@@ -3,7 +3,9 @@ spring:
     name: ecommerce-api
 
   datasource:
-    url: jdbc:postgresql://aws-1-ap-south-1.pooler.supabase.com:5432/postgres?user=postgres.ybwsutpejxkbotntphvu&password=harikaramcharan
+    url: jdbc:postgresql://aws-1-ap-south-1.pooler.supabase.com:5432/postgres
+    username: postgres.ybwsutpejxkbotntphvu
+    password: harikaramcharan
     driver-class-name: org.postgresql.Driver
 
   jpa:
