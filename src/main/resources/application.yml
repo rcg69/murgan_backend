@@ -22,7 +22,7 @@ spring:
         generate_statistics: false
 
 server:
-  port: ${PORT:8080}  # Bind to Render's dynamic port
+  port: ${PORT}  # Bind to Render's dynamic port
 
 security:
   jwt:
