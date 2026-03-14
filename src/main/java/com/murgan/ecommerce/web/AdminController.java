@@ -1,4 +1,7 @@
 package com.murgan.ecommerce.web;
+import com.murgan.ecommerce.service.OrderService;
+import com.murgan.ecommerce.domain.Order;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,10 +36,25 @@ import jakarta.validation.Valid;
 public class AdminController {
 
 	private final AdminService adminService;
+	private final OrderService orderService;
 
 	public AdminController(AdminService adminService) {
-		this.adminService = adminService;
+		this(adminService, null);
 	}
+
+	   public AdminController(AdminService adminService, OrderService orderService) {
+		   this.adminService = adminService;
+		   this.orderService = orderService;
+	   }
+
+	   /**
+		* Returns all orders placed by users (admin only).
+		*/
+	   @GetMapping("/orders")
+	   public ResponseEntity<List<Order>> getAllOrders() {
+		   List<Order> orders = orderService.getAllOrders();
+		   return ResponseEntity.ok(orders);
+	   }
 
 	@GetMapping("/dashboard")
 	public ResponseEntity<DashboardResponse> dashboard() {

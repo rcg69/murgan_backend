@@ -1,4 +1,5 @@
 package com.murgan.ecommerce.service;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +12,13 @@ import com.murgan.ecommerce.repository.OrderRepository;
 
 @Service
 public class OrderService {
+	/**
+	 * Returns all orders in the system (admin use only).
+	 */
+	@Transactional(readOnly = true)
+	public List<Order> getAllOrders() {
+		return orderRepository.findAll();
+	}
 
 	private final CurrentUserService currentUserService;
 	private final UserService userService;
