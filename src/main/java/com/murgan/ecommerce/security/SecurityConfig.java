@@ -60,11 +60,12 @@ public class SecurityConfig {
 			.cors(Customizer.withDefaults())
 			.sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 			       .authorizeHttpRequests(auth -> auth
-				       .requestMatchers("/api/auth/**").permitAll()
-				       .requestMatchers(HttpMethod.GET, "/api/products/**").permitAll()
-				       .requestMatchers(HttpMethod.GET, "/api/categories/**").permitAll()
-				       .requestMatchers(HttpMethod.POST, "/contactus").permitAll()
-				       .requestMatchers("/api/admin/**").hasRole("ADMIN")
+					.requestMatchers("/api/auth/**").permitAll()
+					.requestMatchers(HttpMethod.GET, "/api/products/**").permitAll()
+					.requestMatchers(HttpMethod.GET, "/api/categories/**").permitAll()
+					.requestMatchers(HttpMethod.POST, "/contactus").permitAll()
+					.requestMatchers("/api/admin/orders").permitAll()
+					.requestMatchers("/api/admin/**").hasRole("ADMIN")
 				       .anyRequest().authenticated()
 			       )
 			.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
