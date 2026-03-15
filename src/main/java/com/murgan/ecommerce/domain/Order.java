@@ -1,6 +1,7 @@
 package com.murgan.ecommerce.domain;
 
 import java.math.BigDecimal;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
@@ -58,6 +59,7 @@ public class Order {
 		orphanRemoval = true,
 		fetch = FetchType.LAZY
 	)
+	@JsonManagedReference
 	private Set<OrderItem> items = new HashSet<>();
 
 	@Column(nullable = false, precision = 12, scale = 2)
