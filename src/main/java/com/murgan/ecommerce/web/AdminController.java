@@ -3,6 +3,7 @@ import com.murgan.ecommerce.service.OrderService;
 import com.murgan.ecommerce.domain.Order;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -35,106 +36,97 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/admin")
 public class AdminController {
 
-	private final AdminService adminService;
-	private final OrderService orderService;
+    private final AdminService adminService;
+    private final OrderService orderService;
 
-	public AdminController(AdminService adminService) {
-		this(adminService, null);
-	}
+    @Autowired
+    public AdminController(AdminService adminService, OrderService orderService) {
+        this.adminService = adminService;
+        this.orderService = orderService;
+    }
 
-	   public AdminController(AdminService adminService, OrderService orderService) {
-		   this.adminService = adminService;
-		   this.orderService = orderService;
-	   }
+    @GetMapping("/orders")
+    public ResponseEntity<List<Order>> getAllOrders() {
+        List<Order> orders = orderService.getAllOrders();
+        return ResponseEntity.ok(orders);
+    }
 
-	   /**
-		* Returns all orders placed by users (admin only).
-		*/
-	   @GetMapping("/orders")
-	   public ResponseEntity<List<Order>> getAllOrders() {
-		   List<Order> orders = orderService.getAllOrders();
-		   return ResponseEntity.ok(orders);
-	   }
+    @GetMapping("/dashboard")
+    public ResponseEntity<DashboardResponse> dashboard() {
+        var s = adminService.dashboard();
+        return ResponseEntity.ok(new DashboardResponse(s.users(), s.categories(), s.products(), s.orders()));
+    }
 
-	@GetMapping("/dashboard")
-	public ResponseEntity<DashboardResponse> dashboard() {
-		var s = adminService.dashboard();
-		return ResponseEntity.ok(new DashboardResponse(s.users(), s.categories(), s.products(), s.orders()));
-	}
+    @GetMapping("/users")
+    public ResponseEntity<Page<UserResponse>> users(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "20") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, Math.min(size, 200));
+        return ResponseEntity.ok(adminService.listUsers(pageable).map(AdminController::toUserResponse));
+    }
 
-	@GetMapping("/users")
-	public ResponseEntity<Page<UserResponse>> users(
-		@RequestParam(defaultValue = "0") int page,
-		@RequestParam(defaultValue = "20") int size
-	) {
-		Pageable pageable = PageRequest.of(page, Math.min(size, 200));
-		return ResponseEntity.ok(adminService.listUsers(pageable).map(AdminController::toUserResponse));
-	}
+    @PostMapping("/categories")
+    public ResponseEntity<CategoryResponse> createCategory(@Valid @RequestBody UpsertCategoryRequest req) {
+        return ResponseEntity.ok(toCategoryResponse(adminService.createCategory(req.name(), req.description())));
+    }
 
-	@PostMapping("/categories")
-	public ResponseEntity<CategoryResponse> createCategory(@Valid @RequestBody UpsertCategoryRequest req) {
-		return ResponseEntity.ok(toCategoryResponse(adminService.createCategory(req.name(), req.description())));
-	}
+    @PutMapping("/categories/{id}")
+    public ResponseEntity<CategoryResponse> updateCategory(@PathVariable Long id, @Valid @RequestBody UpsertCategoryRequest req) {
+        return ResponseEntity.ok(toCategoryResponse(adminService.updateCategory(id, req.name(), req.description())));
+    }
 
-	@PutMapping("/categories/{id}")
-	public ResponseEntity<CategoryResponse> updateCategory(@PathVariable Long id, @Valid @RequestBody UpsertCategoryRequest req) {
-		return ResponseEntity.ok(toCategoryResponse(adminService.updateCategory(id, req.name(), req.description())));
-	}
+    @DeleteMapping("/categories/{id}")
+    public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
+        adminService.deleteCategory(id);
+        return ResponseEntity.noContent().build();
+    }
 
-	@DeleteMapping("/categories/{id}")
-	public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
-		adminService.deleteCategory(id);
-		return ResponseEntity.noContent().build();
-	}
+    @PostMapping("/products")
+    public ResponseEntity<ProductResponse> createProduct(@Valid @RequestBody UpsertProductRequest req) {
+        Product p = adminService.createProduct(
+            req.name(),
+            req.description(),
+            req.price(),
+            req.stockQuantity(),
+            req.imageUrls(),
+            req.categoryId()
+        );
+        return ResponseEntity.ok(ProductController.toResponse(p));
+    }
 
+    @PutMapping("/products/{id}")
+    public ResponseEntity<ProductResponse> updateProduct(@PathVariable Long id, @Valid @RequestBody UpsertProductRequest req) {
+        Product p = adminService.updateProduct(
+            id,
+            req.name(),
+            req.description(),
+            req.price(),
+            req.stockQuantity(),
+            req.imageUrls(),
+            req.categoryId()
+        );
+        return ResponseEntity.ok(ProductController.toResponse(p));
+    }
 
-	       @PostMapping("/products")
-	       public ResponseEntity<ProductResponse> createProduct(@Valid @RequestBody UpsertProductRequest req) {
-		       Product p = adminService.createProduct(
-			       req.name(),
-			       req.description(),
-			       req.price(),
-			       req.stockQuantity(),
-			       req.imageUrls(),
-			       req.categoryId()
-		       );
-		       return ResponseEntity.ok(ProductController.toResponse(p));
-	       }
+    @DeleteMapping("/products/{id}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+        adminService.deleteProduct(id);
+        return ResponseEntity.noContent().build();
+    }
 
+    @GetMapping("/sales")
+    public ResponseEntity<SalesSummaryResponse> salesSummary() {
+        var summary = adminService.getSalesSummary();
+        return ResponseEntity.ok(summary);
+    }
 
-	       @PutMapping("/products/{id}")
-	       public ResponseEntity<ProductResponse> updateProduct(@PathVariable Long id, @Valid @RequestBody UpsertProductRequest req) {
-		       Product p = adminService.updateProduct(
-			       id,
-			       req.name(),
-			       req.description(),
-			       req.price(),
-			       req.stockQuantity(),
-			       req.imageUrls(),
-			       req.categoryId()
-		       );
-		       return ResponseEntity.ok(ProductController.toResponse(p));
-	       }
+    private static UserResponse toUserResponse(User u) {
+        var roles = u.getRoles().stream().map(r -> r.getName()).collect(java.util.stream.Collectors.toSet());
+        return new UserResponse(u.getId(), u.getUsername(), u.getEmail(), u.isEnabled(), u.getCreatedAt(), roles);
+    }
 
-	@DeleteMapping("/products/{id}")
-	public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
-		adminService.deleteProduct(id);
-		return ResponseEntity.noContent().build();
-	}
-
-	@GetMapping("/sales")
-	public ResponseEntity<SalesSummaryResponse> salesSummary() {
-		var summary = adminService.getSalesSummary();
-		return ResponseEntity.ok(summary);
-	}
-
-	private static UserResponse toUserResponse(User u) {
-		var roles = u.getRoles().stream().map(r -> r.getName()).collect(java.util.stream.Collectors.toSet());
-		return new UserResponse(u.getId(), u.getUsername(), u.getEmail(), u.isEnabled(), u.getCreatedAt(), roles);
-	}
-
-	private static CategoryResponse toCategoryResponse(Category c) {
-		return new CategoryResponse(c.getId(), c.getName(), c.getDescription());
-	}
+    private static CategoryResponse toCategoryResponse(Category c) {
+        return new CategoryResponse(c.getId(), c.getName(), c.getDescription());
+    }
 }
-
