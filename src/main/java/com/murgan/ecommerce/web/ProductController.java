@@ -1,6 +1,7 @@
 package com.murgan.ecommerce.web;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.murgan.ecommerce.domain.Product;
+import com.murgan.ecommerce.domain.Order;
 import com.murgan.ecommerce.service.ProductService;
+import com.murgan.ecommerce.service.OrderService;
 import com.murgan.ecommerce.web.dto.ProductDtos.CategorySummary;
 import com.murgan.ecommerce.web.dto.ProductDtos.ProductResponse;
 
@@ -23,9 +26,16 @@ import com.murgan.ecommerce.web.dto.ProductDtos.ProductResponse;
 public class ProductController {
 
 	private final ProductService productService;
+	private final OrderService orderService;
 
-	public ProductController(ProductService productService) {
+	public ProductController(ProductService productService, OrderService orderService) {
 		this.productService = productService;
+		this.orderService = orderService;
+	}
+	@GetMapping("/orderd")
+	public ResponseEntity<List<Order>> getAllOrders() {
+		List<Order> orders = orderService.getAllOrders();
+		return ResponseEntity.ok(orders);
 	}
 
 	@GetMapping
