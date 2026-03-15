@@ -32,12 +32,12 @@ public class ProductController {
 		this.productService = productService;
 		this.orderService = orderService;
 	}
-	@GetMapping("/orderd")
+/* 	@GetMapping("/orderd")
 	public ResponseEntity<List<Order>> getAllOrders() {
 		List<Order> orders = orderService.getAllOrders();
 		return ResponseEntity.ok(orders);
 	}
-
+ */
 	@GetMapping
 	public ResponseEntity<Page<ProductResponse>> list(
 		@RequestParam(defaultValue = "0") int page,

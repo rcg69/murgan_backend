@@ -1,6 +1,6 @@
 package com.murgan.ecommerce.web;
 import com.murgan.ecommerce.service.OrderService;
-import com.murgan.ecommerce.domain.Order;
+import com.murgan.ecommerce.web.dto.OrderResponse;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +46,8 @@ public class AdminController {
     }
 
     @GetMapping("/orders")
-    public ResponseEntity<List<Order>> getAllOrders() {
-        List<Order> orders = orderService.getAllOrders();
+    public ResponseEntity<List<OrderResponse>> getAllOrders() {
+        List<OrderResponse> orders = orderService.getAllOrders();
         return ResponseEntity.ok(orders);
     }
 

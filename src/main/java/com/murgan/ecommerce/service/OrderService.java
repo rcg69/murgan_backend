@@ -1,5 +1,6 @@
 package com.murgan.ecommerce.service;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.murgan.ecommerce.domain.Order;
+import com.murgan.ecommerce.web.dto.OrderResponse;
 import com.murgan.ecommerce.domain.User;
 import com.murgan.ecommerce.repository.OrderRepository;
 
@@ -16,8 +18,17 @@ public class OrderService {
 	 * Returns all orders in the system (admin use only).
 	 */
 	@Transactional(readOnly = true)
-	public List<Order> getAllOrders() {
-		return orderRepository.findAll();
+	public List<OrderResponse> getAllOrders() {
+		return orderRepository.findAll()
+			.stream()
+			.map(o -> new OrderResponse(
+				o.getId(),
+				o.getStatus().toString(),
+				o.getTotal(),
+				o.getUser().getEmail(),
+				o.getCreatedAt().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime()
+			))
+			.collect(Collectors.toList());
 	}
 
 	private final CurrentUserService currentUserService;
