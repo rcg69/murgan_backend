@@ -59,15 +59,16 @@ public class SecurityConfig {
 			.csrf(csrf -> csrf.disable())
 			.cors(Customizer.withDefaults())
 			.sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-			       .authorizeHttpRequests(auth -> auth
+				   .authorizeHttpRequests(auth -> auth
 					.requestMatchers("/api/auth/**").permitAll()
 					.requestMatchers(HttpMethod.GET, "/api/products/**").permitAll()
 					.requestMatchers(HttpMethod.GET, "/api/categories/**").permitAll()
 					.requestMatchers(HttpMethod.POST, "/contactus").permitAll()
 					.requestMatchers("/api/admin/orders").permitAll()
 					.requestMatchers("/api/admin/**").hasRole("ADMIN")
-				       .anyRequest().authenticated()
-			       )
+					.requestMatchers("/api/ratings/**").authenticated()
+					   .anyRequest().authenticated()
+				   )
 			.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
 		return http.build();
