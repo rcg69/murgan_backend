@@ -66,7 +66,7 @@ public class SecurityConfig {
 					.requestMatchers(HttpMethod.POST, "/contactus").permitAll()
 					.requestMatchers("/api/admin/orders").permitAll()
 					.requestMatchers("/api/admin/**").hasRole("ADMIN")
-					.requestMatchers("/api/ratings/**").permitAll()
+					.requestMatchers("/api/ratings/**").authenticated()
 					   .anyRequest().authenticated()
 				   )
 			.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
