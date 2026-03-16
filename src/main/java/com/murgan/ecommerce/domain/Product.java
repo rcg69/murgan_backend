@@ -4,6 +4,10 @@ import java.math.BigDecimal;
 
 import java.time.Instant;
 import java.util.List;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Transient;
+import com.murgan.ecommerce.domain.Rating;
 import jakarta.persistence.Convert;
 
 import jakarta.persistence.Column;
@@ -60,5 +64,28 @@ public class Product {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "category_id", nullable = false)
 	private Category category;
+	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Rating> ratings;
+
+	// Not persisted, calculated at runtime
+	@Transient
+	private Double overallRating;
+
+	public List<Rating> getRatings() {
+		return ratings;
+	}
+
+	public void setRatings(List<Rating> ratings) {
+		this.ratings = ratings;
+	}
+
+	public Double getOverallRating() {
+		if (ratings == null || ratings.isEmpty()) return null;
+		return ratings.stream().mapToInt(Rating::getRating).average().orElse(0.0);
+	}
+
+	public void setOverallRating(Double overallRating) {
+		this.overallRating = overallRating;
+	}
 }
 

@@ -1,3 +1,4 @@
+
 package com.murgan.ecommerce.service;
 
 import org.springframework.data.domain.Page;
@@ -26,5 +27,13 @@ public class UserService {
 	public Page<User> listAll(Pageable pageable) {
 		return userRepository.findAll(pageable);
 	}
-}
 
+	// ...existing imports and class declaration...
+
+		@Transactional(readOnly = true)
+		public User requireByUsernameOrEmail(String usernameOrEmail) {
+			return userRepository.findByEmail(usernameOrEmail)
+				.or(() -> userRepository.findByUsername(usernameOrEmail))
+				.orElseThrow(() -> new NotFoundException("User not found"));
+		}
+}
