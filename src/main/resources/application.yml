@@ -25,7 +25,7 @@ server:
 security:
   jwt:
     secret: f9K#2vLxQ8!aZr7P@6YdT3m$W1uC%J4hG0sB^nR5qE&Xk9*Vt8zF2pL7wH!cM6oD#S1yU@bN3iK%Qx4A$Zr5Tg7Jd8Wm9P2E^vC0YhF!kL6sB3Xn&uR1qH8oD4zVtM5G2pS7c9a
-    access-token-ttl-seconds: ${SECURITY_JWT_ACCESS_TOKEN_TTL_SECONDS:900}
+    access-token-ttl-seconds: ${SECURITY_JWT_ACCESS_TOKEN_TTL_SECONDS:86400}
 
 app:
   cors:
