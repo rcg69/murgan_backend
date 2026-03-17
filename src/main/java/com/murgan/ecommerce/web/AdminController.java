@@ -84,28 +84,30 @@ public class AdminController {
 
     @PostMapping("/products")
     public ResponseEntity<ProductResponse> createProduct(@Valid @RequestBody UpsertProductRequest req) {
-        Product p = adminService.createProduct(
-            req.name(),
-            req.description(),
-            req.price(),
-            req.stockQuantity(),
-            req.imageUrls(),
-            req.categoryId()
-        );
+            Product p = adminService.createProduct(
+                req.name(),
+                req.description(),
+                req.price(),
+                req.discount(),
+                req.stockQuantity(),
+                req.imageUrls(),
+                req.categoryId()
+            );
         return ResponseEntity.ok(ProductController.toResponse(p));
     }
 
     @PutMapping("/products/{id}")
     public ResponseEntity<ProductResponse> updateProduct(@PathVariable Long id, @Valid @RequestBody UpsertProductRequest req) {
-        Product p = adminService.updateProduct(
-            id,
-            req.name(),
-            req.description(),
-            req.price(),
-            req.stockQuantity(),
-            req.imageUrls(),
-            req.categoryId()
-        );
+            Product p = adminService.updateProduct(
+                id,
+                req.name(),
+                req.description(),
+                req.price(),
+                req.discount(),
+                req.stockQuantity(),
+                req.imageUrls(),
+                req.categoryId()
+            );
         return ResponseEntity.ok(ProductController.toResponse(p));
     }
 

@@ -70,15 +70,16 @@ public class ProductController {
 	}
 
 	       public static ProductResponse toResponse(Product p) {
-		       return new ProductResponse(
-			       p.getId(),
-			       p.getName(),
-			       p.getDescription(),
-			       p.getPrice(),
-			       p.getStockQuantity(),
-			       p.getImageUrls(),
-			       new CategorySummary(p.getCategory().getId(), p.getCategory().getName())
-		       );
+			      return new ProductResponse(
+				      p.getId(),
+				      p.getName(),
+				      p.getDescription(),
+				      p.getPrice(),
+				      p.getDiscount(),
+				      p.getStockQuantity(),
+				      p.getImageUrls(),
+				      new CategorySummary(p.getCategory().getId(), p.getCategory().getName())
+			      );
 	       }
 
 	private static Sort parseSort(String sort) {

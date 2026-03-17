@@ -71,6 +71,7 @@ public class ProductService {
 		existing.setName(patch.getName());
 		existing.setDescription(patch.getDescription());
 		existing.setPrice(patch.getPrice());
+		existing.setDiscount(patch.getDiscount());
 		existing.setStockQuantity(patch.getStockQuantity());
 			   existing.setImageUrls(patch.getImageUrls());
 		existing.setCategory(patch.getCategory());

@@ -16,6 +16,7 @@ public final class ProductDtos {
 		       String name,
 		       String description,
 		       BigDecimal price,
+		       BigDecimal discount,
 		       Integer stockQuantity,
 		       java.util.List<String> imageUrls,
 		       CategorySummary category
@@ -27,6 +28,7 @@ public final class ProductDtos {
 		       @NotBlank @Size(max = 200) String name,
 		       @Size(max = 500) String description,
 		       @NotNull @Positive BigDecimal price,
+		       @NotNull @Positive BigDecimal discount,
 		       @NotNull Integer stockQuantity,
 		       java.util.List<String> imageUrls,
 		       @NotNull Long categoryId
