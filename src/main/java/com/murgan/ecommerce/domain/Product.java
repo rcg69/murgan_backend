@@ -50,9 +50,6 @@ public class Product {
 	@Column(nullable = false, precision = 12, scale = 2)
 	private BigDecimal price;
 
-	@Column(nullable = false, precision = 5, scale = 2)
-	private BigDecimal discount = BigDecimal.ZERO;
-
 	@Column(nullable = false)
 	private Integer stockQuantity;
 
@@ -85,14 +82,6 @@ public class Product {
 	public Double getOverallRating() {
 		if (ratings == null || ratings.isEmpty()) return null;
 		return ratings.stream().mapToInt(Rating::getRating).average().orElse(0.0);
-	}
-
-	public BigDecimal getDiscount() {
-		return discount;
-	}
-
-	public void setDiscount(BigDecimal discount) {
-		this.discount = discount;
 	}
 
 	public void setOverallRating(Double overallRating) {
