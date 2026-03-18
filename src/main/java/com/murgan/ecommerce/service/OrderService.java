@@ -46,5 +46,15 @@ public class OrderService {
 		User user = userService.requireByEmail(currentUserService.requireEmail());
 		return orderRepository.findByUser(user, pageable);
 	}
+
+	@Transactional
+	public Order save(Order order) {
+		return orderRepository.save(order);
+	}
+
+	@Transactional(readOnly = true)
+	public Order requireById(Long id) {
+		return orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Order not found: " + id));
+	}
 }
 
