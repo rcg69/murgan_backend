@@ -36,9 +36,13 @@ public class ProductService {
 				predicates.add(cb.equal(root.get("category").get("id"), categoryId));
 			}
 			if (q != null && !q.isBlank()) {
-				String like = "%" + q.trim().toLowerCase() + "%";
-				predicates.add(cb.like(cb.lower(root.get("name")), like));
-			}
+    String like = "%" + q.trim().toLowerCase() + "%";
+    predicates.add(cb.or(
+        cb.like(cb.lower(root.get("name")), like),
+        cb.like(cb.lower(cb.coalesce(root.get("description"), "")), like),
+        cb.like(cb.lower(root.get("category").get("name")), like)
+    ));
+}
 			if (minPrice != null) {
 				predicates.add(cb.greaterThanOrEqualTo(root.get("price"), minPrice));
 			}
