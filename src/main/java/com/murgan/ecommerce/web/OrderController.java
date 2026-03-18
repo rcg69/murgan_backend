@@ -50,7 +50,7 @@ public class OrderController {
 	/**
 	 * Admin endpoint to update order status.
 	 */
-	@PutMapping("/admin/{orderId}/status")
+	       @PutMapping("/{orderId}/status")
 	public ResponseEntity<OrderResponse> updateOrderStatus(
 		@PathVariable Long orderId,
 		@RequestBody StatusUpdateRequest request
