@@ -70,16 +70,17 @@ public class ProductService {
 	}
 
 	@Transactional
-	public Product update(Long id, Product patch) {
-		Product existing = requireById(id);
-		existing.setName(patch.getName());
-		existing.setDescription(patch.getDescription());
-		existing.setPrice(patch.getPrice());
-		existing.setStockQuantity(patch.getStockQuantity());
-			   existing.setImageUrls(patch.getImageUrls());
-		existing.setCategory(patch.getCategory());
-		return existing;
-	}
+	       public Product update(Long id, Product patch) {
+		       Product existing = requireById(id);
+		       existing.setName(patch.getName());
+		       existing.setDescription(patch.getDescription());
+		       existing.setPrice(patch.getPrice());
+		       existing.setDiscount(patch.getDiscount());
+		       existing.setStockQuantity(patch.getStockQuantity());
+		       existing.setImageUrls(patch.getImageUrls());
+		       existing.setCategory(patch.getCategory());
+		       return existing;
+	       }
 
 	@Transactional
 	public void delete(Long id) {

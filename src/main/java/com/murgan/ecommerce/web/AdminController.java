@@ -88,6 +88,7 @@ public class AdminController {
             req.name(),
             req.description(),
             req.price(),
+            req.discount(),
             req.stockQuantity(),
             req.imageUrls(),
             req.categoryId()
@@ -102,6 +103,7 @@ public class AdminController {
             req.name(),
             req.description(),
             req.price(),
+            req.discount(),
             req.stockQuantity(),
             req.imageUrls(),
             req.categoryId()

@@ -50,6 +50,9 @@ public class Product {
 	@Column(nullable = false, precision = 12, scale = 2)
 	private BigDecimal price;
 
+	@Column(precision = 5, scale = 2)
+	private BigDecimal discount = BigDecimal.ZERO; // Discount percentage (e.g., 10.00 for 10%)
+
 	@Column(nullable = false)
 	private Integer stockQuantity;
 

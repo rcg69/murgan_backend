@@ -66,31 +66,33 @@ public class AdminService {
 
 
 	       @Transactional
-	       public Product createProduct(String name, String description, BigDecimal price, Integer stock, java.util.List<String> imageUrls, Long categoryId) {
-		       Category c = categoryService.requireById(categoryId);
-		       Product p = new Product();
-		       p.setName(name);
-		       p.setDescription(description);
-		       p.setPrice(price);
-		       p.setStockQuantity(stock);
-		       p.setImageUrls(imageUrls);
-		       p.setCategory(c);
-		       return productService.create(p);
-	       }
+		       public Product createProduct(String name, String description, BigDecimal price, BigDecimal discount, Integer stock, java.util.List<String> imageUrls, Long categoryId) {
+			       Category c = categoryService.requireById(categoryId);
+			       Product p = new Product();
+			       p.setName(name);
+			       p.setDescription(description);
+			       p.setPrice(price);
+			       p.setDiscount(discount);
+			       p.setStockQuantity(stock);
+			       p.setImageUrls(imageUrls);
+			       p.setCategory(c);
+			       return productService.create(p);
+		       }
 
 
 	       @Transactional
-	       public Product updateProduct(Long id, String name, String description, BigDecimal price, Integer stock, java.util.List<String> imageUrls, Long categoryId) {
-		       Category c = categoryService.requireById(categoryId);
-		       Product patch = new Product();
-		       patch.setName(name);
-		       patch.setDescription(description);
-		       patch.setPrice(price);
-		       patch.setStockQuantity(stock);
-		       patch.setImageUrls(imageUrls);
-		       patch.setCategory(c);
-		       return productService.update(id, patch);
-	       }
+		       public Product updateProduct(Long id, String name, String description, BigDecimal price, BigDecimal discount, Integer stock, java.util.List<String> imageUrls, Long categoryId) {
+			       Category c = categoryService.requireById(categoryId);
+			       Product patch = new Product();
+			       patch.setName(name);
+			       patch.setDescription(description);
+			       patch.setPrice(price);
+			       patch.setDiscount(discount);
+			       patch.setStockQuantity(stock);
+			       patch.setImageUrls(imageUrls);
+			       patch.setCategory(c);
+			       return productService.update(id, patch);
+		       }
 
 	@Transactional
 	public void deleteProduct(Long id) {
