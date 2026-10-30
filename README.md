@@ -1,74 +1,110 @@
-# E-commerce Spring Boot Backend (PostgreSQL + JWT)
+# Murgan — E-commerce REST API
 
-## Tech
-- Spring Boot 3 (Java 17)
+A REST API for an e-commerce application, built with Spring Boot, Java, Spring Data JPA, Spring Security, and PostgreSQL. It supports product discovery, customer accounts, cart operations, orders, ratings, and administrative workflows.
+
+**Frontend:** https://murgan-ui.vercel.app  
+**Frontend source:** [murgan-ui](https://github.com/rcg69/murgan-ui)
+
+## Features
+
+- User registration and authentication
+- JWT bearer-token authentication and stateless request security
+- Password hashing with BCrypt
+- Product listing, product details, filtering, sorting, and pagination
+- Category endpoints
+- Authenticated cart retrieval and item add, update, and removal
+- Cart checkout and customer order retrieval
+- Admin dashboard and management endpoints for users, products, and categories
+- Rating endpoints
+- Request/response DTOs and centralized API exception handling
+
+Protected cart operations resolve the current user from the authenticated security context rather than trusting a client-supplied user ID.
+
+## Technology
+
+- Java 17
+- Spring Boot 3.3
+- Spring Web
+- Spring Security
+- Spring Data JPA / Hibernate
 - PostgreSQL
-- Spring Security (JWT Bearer)
-- Spring Data JPA
+- Maven
+- JJWT for JWT handling
+- Lombok
 
-## Run (local)
-1. Create a PostgreSQL database (example: `ecommerce`).
-2. Set environment variables (PowerShell examples):
+## Architecture
 
-```bash
-$env:DB_URL="jdbc:postgresql://localhost:5432/ecommerce"
-$env:DB_USERNAME="postgres"
-$env:DB_PASSWORD="postgres"
+The application separates HTTP handling, business logic, persistence, domain models, and security:
 
-# MUST be >= 32 chars
-$env:JWT_SECRET="replace-this-with-a-long-random-secret-32-chars-min"
-
-# CORS (frontend)
-$env:CORS_ALLOWED_ORIGINS="http://localhost:3000"
+```text
+src/main/java/com/murgan/ecommerce/
+├── bootstrap/   # Initial data setup
+├── domain/      # JPA entities
+├── repository/  # Spring Data repositories
+├── security/    # JWT filter, JWT service, user principal and security config
+├── service/     # Business logic
+└── web/
+    ├── dto/     # Request and response DTOs
+    └── *Controller.java
 ```
 
-3. Start the API:
+## API overview
+
+| Area | Representative endpoints |
+|---|---|
+| Authentication | `POST /api/auth/register`, `POST /api/auth/login` |
+| Products | `GET /api/products`, `GET /api/products/{id}` |
+| Product search | `GET /api/products/search` |
+| Categories | `GET /api/categories` |
+| Cart | `GET /api/cart`, `POST /api/cart/items`, `PATCH /api/cart/items/{productId}`, `DELETE /api/cart/items/{productId}` |
+| Checkout and orders | `POST /api/cart/checkout`, `GET /api/orders` |
+| Administration | `/api/admin/**` |
+
+Product search accepts optional category, text, price-range, stock, page, size, and sort parameters. Administrative endpoints require the administrator role; cart and order operations require authentication.
+
+## Run locally
+
+### Prerequisites
+
+- JDK 17
+- Maven
+- PostgreSQL
+
+Create a PostgreSQL database, for example `murgan`, then configure the application environment.
+
+### Environment variables
+
+The application reads the following variables:
+
+| Variable | Purpose |
+|---|---|
+| `DATABASE_URL` | JDBC PostgreSQL connection URL |
+| `SECURITY_JWT_SECRET` | A unique, strong signing secret |
+| `SECURITY_JWT_ACCESS_TOKEN_TTL_SECONDS` | Access-token lifetime in seconds |
+| `APP_CORS_ALLOWED_ORIGINS` | Comma-separated allowed frontend origins |
+| `APP_BOOTSTRAP_ADMIN_ENABLED` | Whether initial admin bootstrap is enabled |
+| `APP_BOOTSTRAP_ADMIN_EMAIL` | Initial administrator email |
+| `APP_BOOTSTRAP_ADMIN_USERNAME` | Initial administrator username |
+| `APP_BOOTSTRAP_ADMIN_PASSWORD` | Strong initial administrator password |
+
+Set these in your local shell or deployment environment. Do not commit real credentials or signing secrets. Configure a strong JWT secret and unique bootstrap credentials before deployment; disable admin bootstrap after the initial account has been created.
+
+### Start the API
 
 ```bash
+git clone https://github.com/rcg69/murgan_backend.git
+cd murgan_backend
 mvn spring-boot:run
 ```
 
-## Bootstrap an admin (optional)
-By default, the app **does not** auto-create an admin user.
+The server uses port `8080` by default. The port can be configured through the `PORT` environment variable.
 
-To create a first admin on startup:
+### Run tests
 
 ```bash
-$env:BOOTSTRAP_ADMIN_ENABLED="true"
-$env:BOOTSTRAP_ADMIN_EMAIL="admin@example.com"
-$env:BOOTSTRAP_ADMIN_USERNAME="admin"
-$env:BOOTSTRAP_ADMIN_PASSWORD="ChangeThisStrongPassword!"
+mvn test
 ```
 
-Start the app once, login, then disable bootstrap again.
+## Frontend
 
-## Auth
-- **Register**: `POST /api/auth/register`
-- **Login**: `POST /api/auth/login` → returns `accessToken`
-
-Send token to protected routes:
-`Authorization: Bearer <token>`
-
-## Core endpoints (frontend)
-- **Products (fast list)**: `GET /api/products?page=0&size=20&sort=createdAt,desc`
-- **Products (filter/sort/search)**: `GET /api/products/search?categoryId=1&q=phone&minPrice=100&maxPrice=500&inStock=true&sort=price,asc`
-- **Categories**: `GET /api/categories`
-
-## Cart (requires login)
-- `GET /api/cart`
-- `POST /api/cart/items`
-- `PATCH /api/cart/items/{productId}`
-- `DELETE /api/cart/items/{productId}`
-- `POST /api/cart/checkout`
-
-Cart data is always tied to the **JWT-authenticated user** (no userId is accepted from the client).
-
-## Orders (requires login)
-- `GET /api/orders`
-
-## Admin (requires ROLE_ADMIN)
-- Dashboard: `GET /api/admin/dashboard`
-- Users: `GET /api/admin/users`
-- Categories: `POST/PUT/DELETE /api/admin/categories`
-- Products: `POST/PUT/DELETE /api/admin/products`
-
+The companion Next.js application is available at [rcg69/murgan-ui](https://github.com/rcg69/murgan-ui). Configure its API base URL to point to this service.
